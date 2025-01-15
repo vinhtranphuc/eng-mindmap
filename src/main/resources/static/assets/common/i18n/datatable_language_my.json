@@ -1,0 +1,66 @@
+{
+  "emptyTable": "ရှာဖွေမှုရလဒ်များ မရှိပါ။",
+  "info": "_START_ - _END_ \/ _TOTAL_",
+  "infoEmpty": "0 - 0 \/ 0",
+  "infoFiltered": "(စုစုပေါင်း _MAX_ ခု)",
+  "infoThousands": ",",
+  "lengthMenu": "စာမျက်နှာတစ်ခုတည်းနှင့် _MENU_ ခု",
+  "loadingRecords": "ဖော်ပြချက်တွေကိုဖတ်နေပြီးနောက်...",
+  "processing": "လုပ်ဆောင်နေပြီးနောက်...",
+  "search": "ရှာဖွေရန်:",
+  "zeroRecords": "ရလဒ်မရှိပါ",
+  "paginate": {
+    "first": "<img src='/assets/media/icons/duotune/arrows/chevron-double-left.svg' class='datatable-paginate-buttons' />",
+    "last": "<img src='/assets/media/icons/duotune/arrows/chevron-double-right.svg' class='datatable-paginate-buttons' />",
+    "previous": "<img src='/assets/media/icons/duotune/arrows/chevron-left.svg' class='datatable-paginate-buttons' />",
+    "next": "<img src='/assets/media/icons/duotune/arrows/chevron-right.svg' class='datatable-paginate-buttons' />"
+  },
+  "aria": {
+    "sortAscending": ": အထိအမှားအားဖြင့်စီမံခန့်ခွဲမှု",
+    "sortDescending": ": အထိအမှားအားဖြင့်စွမ်းသည့်ခန့်ခွဲမှု"
+  },
+  "buttons": {
+    "copyKeys": "သင့်ရဲ့စနစ်ကိုကန်ပျက်လက်မှတ်တမ်းကိုစာရင်းသို့သွားပြီးရန်အတွက် ctrl + C ကိုနှိပ်ပါ။ ဖျက်ရန်အတွက်ဤစာရင်းကိုနှိပ်ပါသို့မဟုတ် ESC ကိုနှိပ်ပါ။",
+    "copySuccess": {
+      "_": "%d စာရင်းကိုစာရင်းသို့သွားပြီးပြီ",
+      "1": "1 စာရင်းကိုစာရင်းသို့သွားပြီ"
+    },
+    "copyTitle": "စာရင်းသို့သွားပြီ",
+    "csv": "CSV",
+    "excel": "Excel",
+    "pageLength": {
+      "-1": "အားလုံးကြည့်ရန်",
+      "_": "%d စာရင်းကြည့်ရန်"
+    },
+    "pdf": "PDF",
+    "print": "ပုံနှိပ်ရန်",
+    "collection": "အကြောင်းအရာ <span class=\"ui-button-icon-primary ui-icon ui-icon-triangle-1-s\"><\/span>",
+    "colvis": "ကော်လံကြည့်ရန်",
+    "colvisRestore": "ပြုလုပ်ထားသည့်ကော်လံကိုပြန်ဖွင့်ရန်",
+    "copy": "ကန်ပျက်လက်"
+  },
+  "searchBuilder": {
+    "add": "ရှာဖွေရန်အသစ်ထည့်ရန်",
+    "button": {
+      "0": "ရှာဖွေရန်အသစ်ကိုကန်ပျက်လက်မှတ်တမ်း",
+      "_": "ရှာဖွေရန်အသစ်ကိုကန်ပျက်လက်မှတ်တမ်း (%d)"
+    },
+    "clearAll": "အားလုံးကိုဖျက်ရန်",
+    "condition": "အကြောင်းအရာ",
+    "data": "ဒေတာ",
+    "deleteTitle": "စစ်ကြောင်းမှတ်တမ်းကိုဖျက်ရန်",
+    "logicAnd": "နှင့်",
+    "logicOr": "သို့မဟုတ်",
+    "title": {
+      "0": "ရှာဖွေရန်အသစ်ကိုကန်ပျက်လက်မှတ်တမ်း",
+      "_": "ရှာဖွေရန်အသစ်ကိုကန်ပျက်လက်မှတ်တမ်း (%d)"
+    },
+    "value": "တန်ဖိုး"
+  },
+  "autoFill": {
+    "cancel": "မလုပ်တော့ပါ",
+    "fill": "အကြောင်းအရာမှ <i>%d<i> ကိုထည့်သွင်းပါ<\/i><\/i>",
+    "fillHorizontal": "အပြင်အကြောင်းအရာမှတစ်ခုထည့်သွင်းပါ",
+    "fillVertical": "အနေအထားအကြောင်းအရာမှတစ်ခုထည့်သွင်းပါ"
+  }
+}

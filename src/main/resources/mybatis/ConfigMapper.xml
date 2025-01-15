@@ -1,0 +1,166 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.ConfigMapper">
+
+<!--     <cache/> -->
+
+    <select id="selectRoleNames" resultType="String">
+        SELECT
+            name
+        FROM
+            tb_role
+        WHERE
+            name != 'ROLE_MEMBER'
+    </select>
+
+    <select id="selectMenuList" resultType="MenuVO">
+        SELECT
+            id,
+            title,
+            path,
+            parent_id,
+            group_seq
+        FROM
+            tb_menu
+    </select>
+
+    <select id="selectMenuListByRole" resultType="MenuVO">
+        SELECT
+           m.id,
+           m.title,
+           m.path,
+           m.parent_id,
+           m.group_seq
+        FROM
+           tb_menu m LEFT JOIN tb_menu_permission mp
+           ON m.id = mp.menu_id
+        WHERE
+            mp.role_name = #{roleName}
+            OR m.path IS NULl
+    </select>
+
+    <select id="selectMenuPermissionList" resultType="MenuPermissionVO">
+        SELECT
+            menu_id,
+            role_name,
+            `create`,
+            `read`,
+            `update`,
+            `delete`
+        FROM
+            tb_menu_permission
+        <where>
+            <if test="menuId != null and menuId != ''">
+               AND menu_id = #{menuId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMenuResources" resultType="MenuResourceVO">
+        SELECT
+           mr.menu_id,
+           mr.action,
+           mr.type,
+           mr.method,
+           mr.url_pattern,
+           mr.description,
+           m.path AS menu_path
+        FROM
+           tb_menu_resource mr JOIN tb_menu m ON
+           mr.menu_id = m.id
+    </select>
+
+    <select id="selectPermissResources" resultType="MenuResourceVO">
+        SELECT
+           mr.menu_id,
+           mr.action,
+           mr.type,
+           mr.method,
+           mr.url_pattern,
+           mr.description,
+           m.path AS menu_path,
+           mp.role_name,
+           mp.`create` AS canCreate,
+           mp.`read` AS canRead,
+           mp.`update` AS canUpdate,
+           mp.`delete` AS canDelete
+        FROM
+           tb_menu_resource mr JOIN tb_menu m ON
+               mr.menu_id = m.id
+           LEFT JOIN tb_menu_permission mp ON m.id = mp.menu_id
+    </select>
+
+   <insert id="saveMenus">
+        DELETE FROM tb_menu_resource;
+        DELETE FROM tb_menu_permission;
+        DELETE FROM tb_menu;
+        <foreach item="menu" collection="menuList" open="" separator="" close="">
+            INSERT INTO tb_menu (
+                id,
+                title,
+                path,
+                parent_id,
+                group_seq
+            ) VALUES(
+                #{menu.id},
+                #{menu.title},
+                #{menu.path},
+                #{menu.parentId},
+                #{menu.groupSeq}
+            );
+            <if test="menu.permission != null">
+                <foreach item="per" collection="menu.permission" open="" separator="" close="">
+                    INSERT INTO tb_menu_permission (
+                        menu_id,
+                        role_name,
+                        `create`,
+                        `read`,
+                        `update`,
+                        `delete`
+                    ) VALUES (
+                        #{menu.id},
+                        #{per.roleName},
+                        #{per.create},
+                        #{per.read},
+                        #{per.update},
+                        #{per.delete}
+                    );
+                </foreach>
+            </if>
+
+            <if test="menu.resources != null">
+                <foreach item="res" collection="menu.resources" open="" separator="" close="">
+                    INSERT INTO tb_menu_resource (
+			            menu_id,
+			            action,
+			            type,
+			            method,
+			            url_pattern
+			        ) VALUES (
+			            #{res.menuId},
+			            #{res.action},
+			            #{res.type},
+			            #{res.method},
+			            #{res.urlPattern}
+			        );
+                </foreach>
+            </if>
+        </foreach>
+    </insert>
+
+    <insert id="insertMenuResource">
+        INSERT INTO tb_menu_resource (
+            menu_id,
+            action,
+            type,
+            method,
+            url_pattern
+        ) VALUES (
+            #{menuId},
+            #{action},
+            #{type},
+            #{method},
+            #{urlPattern}
+        )
+    </insert>
+</mapper>

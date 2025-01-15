@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{../fragments/head.html}"></th:block>
+    <th:block layout:fragment="ovr_head"></th:block>
+</head>
+<body class="flex flex-col m-0 bg-gray-100">
+    <!-- begin: headerbar -->
+    <th:block th:include="~{../fragments/headerbar.html}"></th:block>
+    <!-- end: headerbar -->
+
+    <!-- begin: sidebar -->
+    <th:block th:include="~{../fragments/sidebar.html}"></th:block>
+    <!-- end: sidebar -->
+
+    <!-- begin: content -->
+    <div id="pageContent" class="content ml-0 md:ml-72 mt-16 px-7 py-7">
+        <th:block layout:fragment="ovr_content"></th:block>
+    </div>
+    <!-- end: content -->
+
+    <!-- begin: footer -->
+    <th:block th:include="~{../fragments/footer.html}"></th:block>
+    <!-- end: footer -->
+
+    <!-- begin: common script -->
+    <script th:src="@{/assets/common/sidebar.js}"></script>
+    <script th:src="@{/assets/common/headerbar.js}"></script>
+    <script th:src="@{/assets/common/sgp.js}"></script>
+    <script>
+        const CONTEXT_PATH = /*[[${#httpServletRequest.contextPath}]]*/ "";
+        window.onload = function() {
+            SIDEBAR.fnc_init();
+            HEADERBAR.fnc_init();
+            SGP.fnc_init();
+        }
+    </script>
+    <!-- end: common script -->
+</body>
+</html>

@@ -1,0 +1,198 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.FileMapper">
+
+    <!-- <cache/> -->
+
+    <insert id="saveFile">
+         SET @has_file_name = (
+                        (
+                         SELECT
+                            created_id
+                         FROM tb_file f
+                         WHERE
+                            SUBSTRING_INDEX(file_name,'.',1) = SUBSTRING_INDEX(#{fileName},'.',1)
+                       ) > 0
+                    );
+         SET @grp_seq = CASE
+                           WHEN
+                                @has_file_name
+                           THEN
+                                 (
+                                    SELECT
+                                        grp_seq
+                                     FROM (
+                                        SELECT
+                                         grp_seq,
+                                         @created_id := created_id,
+                                         @created_dt := created_dt
+                                        FROM tb_file f1
+                                        WHERE
+                                         SUBSTRING_INDEX(file_name,'.',1) = SUBSTRING_INDEX(#{fileName},'.',1)
+                                     ) t
+                                 )
+                           ELSE
+                            (
+                                SELECT
+                                   IFNULL(MAX(grp_seq)+1, 1) AS next_grp_seq
+                                FROM tb_file f2
+                                WHERE
+                                   grp_ref_table = #{grpRefTable}
+                                AND grp_ref_primary_id = #{grpRefPrimaryId}
+                                AND grp_ref_type = #{grpRefType}
+                                AND deleted_dt IS NULL
+                            )
+                        END;
+         REPLACE INTO tb_file (
+            id,
+            file_name,
+            grp_ref_table,
+            grp_ref_primary_id,
+            grp_ref_type,
+            grp_seq,
+            root_name,
+            extension,
+            file_size,
+            image_dimensions,
+            created_id,
+            created_dt,
+            updated_id,
+            updated_dt)
+        VALUES (
+            #{id},
+            #{fileName},
+            #{grpRefTable},
+            #{grpRefPrimaryId},
+            #{grpRefType},
+            @grp_seq,
+            #{rootName},
+            #{extension},
+            #{fileSize},
+            #{imageDimensions},
+            IF(@has_file_name,@created_id, #{accountId}),
+            IF(@has_file_name,@created_dt, NOW()),
+            IF(@has_file_name,#{accountId}, NULL),
+            IF(@has_file_name, NOW(), NULL)
+        )
+    </insert>
+
+    <select id="selectReferCnt" resultType="int">
+        SELECT
+            COUNT(1)
+        FROM
+            ${grpRefTable}
+        WHERE
+            id = #{grpRefPrimaryId}
+    </select>
+
+    <sql id="sqlFile">
+       id,
+       file_name,
+       grp_ref_table,
+       grp_ref_primary_id,
+       grp_ref_type,
+       grp_seq,
+       root_name,
+       extension,
+       file_size,
+       image_dimensions,
+       created_id,
+       created_dt,
+       updated_id,
+       updated_dt
+    </sql>
+
+    <select id="selectFile" resultType="FileVO">
+        SELECT
+           <include refid="sqlFile"></include>
+        FROM
+            tb_file
+        <where>
+            <choose>
+                <when test="fileName != null and fileName != ''">
+                    AND file_name = #{fileName}
+                </when>
+                <when test="fileId != null and fileId != ''">
+                    AND id = #{fileId}
+                </when>
+            </choose>
+            <choose>
+                <when test="aboutDeleted == null or aboutDeleted == true">
+                </when>
+                <otherwise>
+                    AND deleted_dt IS NULL
+                </otherwise>
+            </choose>
+        </where>
+
+    </select>
+
+    <select id="selectGroupFiles" resultType="FileVO">
+        SELECT
+           <include refid="sqlFile"></include>
+        FROM
+            tb_file
+        WHERE
+            grp_ref_table = #{grpRefTable}
+        AND grp_ref_type = #{grpRefType}
+        <if test="grpRefPrimaryId != null">
+            AND grp_ref_primary_id = #{grpRefPrimaryId}
+        </if>
+        AND deleted_dt IS NULL
+        ORDER BY grp_ref_primary_id, grp_seq
+    </select>
+
+    <select id="selectFilesByFileNames" resultType="FileVO">
+        SELECT
+           <include refid="sqlFile"></include>
+        FROM
+            tb_file
+        <where>
+            <choose>
+                <when test="fileNames != null and fileNames.size() > 0">
+                    <foreach item="name" collection="fileNames" open="file_name IN (" separator="," close=")">#{name}</foreach>
+                </when>
+                <otherwise>
+                    FALSE
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="selectFilesWithoutGrpRefCnt" resultType="int">
+        SELECT
+           COUNT(1) AS cnt
+        FROM
+            tb_file
+        <where>
+            <choose>
+                <when test="fileIds != null and fileIds.length > 0">
+                    <foreach
+                        item="fileId" collection="fileIds"
+                        open="id IN (" separator="," close=")">
+                        #{fileId}
+                    </foreach>
+                    AND NOT (
+                        grp_ref_table = #{grpRefTable}
+                        AND grp_ref_type = #{grpRefType}
+                        AND grp_ref_primary_id = #{grpRefPrimaryId}
+                    )
+                </when>
+                <otherwise>
+                    FALSE
+                </otherwise>
+            </choose>
+            AND deleted_dt IS NULL
+        </where>
+    </select>
+
+    <update id="deleteFile">
+        UPDATE tb_file
+        SET
+            deleted_id = #{accountId}
+            ,deleted_dt = NOW()
+        WHERE
+            id = #{fileId}
+        AND deleted_dt IS NULL
+    </update>
+</mapper>

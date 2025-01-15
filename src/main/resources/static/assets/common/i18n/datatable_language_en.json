@@ -1,0 +1,13 @@
+{
+  "emptyTable": "There are no results for your search.",
+  "info": "_START_ - _END_ \/ _TOTAL_",
+  "infoEmpty": "0 - 0 \/ 0",
+  "infoThousands": ",",
+  "processing": "Processing...",
+  "paginate": {
+    "first": "<img src='/assets/media/icons/duotune/arrows/chevron-double-left.svg' class='datatable-paginate-buttons' />",
+    "last": "<img src='/assets/media/icons/duotune/arrows/chevron-double-right.svg' class='datatable-paginate-buttons' />",
+    "previous": "<img src='/assets/media/icons/duotune/arrows/chevron-left.svg' class='datatable-paginate-buttons' />",
+    "next": "<img src='/assets/media/icons/duotune/arrows/chevron-right.svg' class='datatable-paginate-buttons' />"
+  }
+}

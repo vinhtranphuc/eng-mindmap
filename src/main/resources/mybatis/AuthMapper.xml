@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.AuthMapper">
+
+    <select id="selectAccount" resultType="AccountVO">
+        SELECT
+            a.id,
+            a.role_name,
+            a.account_provider_mt,
+            a.account_provider_id,
+            a.login_id,
+            a.name,
+            a.password,
+            a.phone,
+            a.request_logout,
+            a.enabled,
+            a.deleted,
+            a.created_dt,
+            a.created_id,
+            a.updated_dt,
+            a.updated_id,
+            a.deleted_dt,
+            a.deleted_id
+        FROM
+            tb_account a
+        <where>
+            role_name != 'ROLE_MEMBER'
+            <choose>
+                <when test="id != null and id != ''">
+                    AND a.id = #{id}
+                </when>
+                <when test="loginId != null and loginId != ''">
+                    AND a.login_id = #{loginId}
+                </when>
+            </choose>
+            AND a.deleted = 0
+        </where>
+
+    </select>
+
+    <update id="updaetOffRequestLogout">
+        UPDATE tb_account
+        SET
+            request_logout = 0
+        WHERE
+            login_id = #{loginId}
+    </update>
+</mapper>
