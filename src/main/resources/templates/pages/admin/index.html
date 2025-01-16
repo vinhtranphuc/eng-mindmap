@@ -38,18 +38,19 @@
             <div class="col-span-1 lg:col-span-3 flex items-center lg:justify-end">
                 <label class="text-sm">Created Date</label>
             </div>
-            <div class="col-span-1 lg:col-span-4 py-2 flex items-center">
-                <div class="relative w-full">
-                    <input type="text" id="datepicker" datepicker class="w-full border rounded-md p-2 text-sm pr-10" placeholder="created date"/>
-                    <span class="absolute inset-y-0 right-0 flex items-center pr-3">
-                        <i class="fas fa-calendar-alt text-gray-500"></i>
-                    </span>
-                </div>
+            <div class="col-span-1 lg:col-span-4 py-2 flex items-center relative">
+                <input type="text" id="createdDate" class="w-full border rounded-md p-2 text-sm" placeholder="Select Date">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <i class="fas fa-calendar-alt text-gray-400"></i>
+                </span>
                 <script>
                     $(function() {
-                        $("#datepicker").datepicker();
+                        $('#createdDate').datetimepicker({
+                            timepicker:false,
+                            format:'Y-m-d'
+                        });
                     });
-                </script>        
+                </script>
             </div>
             <div class="col-span-1 lg:col-span-1 flex items-center">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full md:w-full lg:w-auto">Search</button>
