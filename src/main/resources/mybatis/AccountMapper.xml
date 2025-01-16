@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.AccountMapper">
+
+    <sql id="sqlAccountFields">
+        acc.id,
+        acc.role,
+        acc.login_id,
+        acc.password,
+        acc.account_provider,
+        acc.created_id,
+        acc.created_dt,
+        acc.updated_id,
+        acc.updated_dt,
+        acc.deleted_id,
+        acc.deleted_dt
+    </sql>
+    
+    <select id="selectAdminList" resultType="AccountVO">
+        SELECT
+            <include refid="sqlAccountFields"></include>
+        FROM
+            account acc
+        WHERE
+            acc.role LIKE 'ROLE%ADMIN'
+    </select>
+</mapper>

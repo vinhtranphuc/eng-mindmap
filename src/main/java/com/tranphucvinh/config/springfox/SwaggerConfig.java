@@ -19,7 +19,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
-@OpenAPIDefinition(info = @io.swagger.v3.oas.annotations.info.Info(title = "Admin APIs", version = "1.0", description = "Authentication APIs"))
+@OpenAPIDefinition(info = @io.swagger.v3.oas.annotations.info.Info(title = "Admin APIs", version = "1.0", description = "Admin APIs"))
 public class SwaggerConfig {
 
     @Bean
